@@ -1,7 +1,6 @@
 import os
 from langchain_ollama import ChatOllama
 from langgraph.checkpoint.memory import MemorySaver
-from graph.src import generator_prompt_template
 from graph.flow import Graph
 from graph.utils.pdf_embedding import multi_pdf_embedding
 
@@ -10,13 +9,11 @@ llm = ChatOllama(
         temperature=0
     )
 
-prompt_template = generator_prompt_template()
-
 pdf_list = ["../data/pdf/"+pdf_path for pdf_path in os.listdir("../data/pdf/")]
+
 vector_store = multi_pdf_embedding(pdf_list)
 
 config = {"configurable": {"thread_id": "1",
-                           "prompt_template": prompt_template,
                            "model": llm,
                            "pdf_vector": vector_store}
                            }
